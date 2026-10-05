@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beroepstaken Peilstok — Versneller — Scalda LWM</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:   #5a9520;
+  --green-d: #3d6b14;
+  --green-l: #7db83a;
+  --green-50:#eef5e6;
+  --green-100:#d4ebaf;
+  --orange:  #e8920a;
+  --orange-l:#f5b84a;
+  --sand:    #8f8f6e;
+  --bg:      #f7f7f5;
+  --card:    #ffffff;
+  --text:    #222222;
+  --tmid:    #555548;
+  --tmut:    #8f8f7a;
+  --bdr:     #ddddd0;
+  --bdrl:    #eeeeea;
+  --acc:     #f0f5e8;
+  --err:     #b91c1c;
+  --tea:     #c47000;
+  --teabg:   #fff8ec;
+  --teabdr:  #f0c870;
+  --sh:  0 1px 8px rgba(60,80,30,.08);
+  --shl: 0 6px 32px rgba(60,80,30,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+
+/* ── HEADER ── */
+.header{background:#fff;border-bottom:3px solid var(--green);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(0,0,0,.08)}
+.header-brand{display:flex;align-items:center;gap:12px}
+.logo-mark svg{width:46px;height:36px}
+.header-title h1{font-family:'Source Serif 4',serif;font-size:.95rem;font-weight:700;color:var(--green-d);line-height:1.2}
+.header-title p{font-size:.7rem;color:var(--sand);margin-top:1px}
+.hactions{display:flex;gap:8px;align-items:center}
+.hbtn{border:none;border-radius:20px;padding:7px 16px;font-family:'Source Sans 3',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s}
+.hbtn-primary{background:var(--green);color:#fff}
+.hbtn-primary:hover{background:var(--green-d)}
+.hbtn-orange{background:var(--orange);color:#fff}
+.hbtn-orange:hover{background:#c47800}
+.hbtn-ghost{background:var(--green-50);color:var(--green-d);border:1.5px solid var(--green-100)}
+.hbtn-ghost:hover{background:var(--green-100)}
+.hbtn-muted{background:transparent;color:var(--tmut);border:1.5px solid var(--bdr);font-size:.74rem}
+.hbtn-muted:hover{background:var(--err);color:#fff;border-color:var(--err)}
+.hbtn-reset{background:transparent;color:var(--tmut);border:1.5px solid var(--bdr)}
+.hbtn-reset:hover{background:var(--err);color:#fff;border-color:var(--err)}
+.teacher-badge{background:var(--orange);color:#fff;border-radius:20px;padding:4px 10px;font-size:.7rem;font-weight:700;display:none}
+.teacher-badge.on{display:inline-flex;align-items:center;gap:4px}
+
+/* ── TEACHER BANNER ── */
+.teacher-banner{display:none;background:var(--teabg);border-bottom:2px solid var(--teabdr);padding:9px 28px;font-size:.82rem;color:var(--tea);font-weight:600;align-items:center;gap:8px}
+.teacher-banner.on{display:flex}
+
+/* ── INTRO CARD ── */
+.intro-wrap{max-width:700px;margin:28px auto 0;padding:0 20px}
+.intro-card{background:var(--card);border-radius:14px;border:2px solid var(--bdr);overflow:hidden;box-shadow:var(--sh)}
+.intro-card-hdr{background:linear-gradient(135deg,var(--green-d),var(--green));color:#fff;padding:18px 24px}
+.intro-card-hdr h2{font-family:'Source Serif 4',serif;font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.intro-card-hdr p{font-size:.78rem;opacity:.8;line-height:1.5}
+.intro-card-body{padding:20px 24px}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+.mfield{display:flex;flex-direction:column;gap:4px}
+.mfield label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tmut)}
+.mfield input,.mfield select{border:1.5px solid var(--bdr);border-radius:8px;padding:8px 12px;font-family:'Source Sans 3',sans-serif;font-size:.88rem;background:var(--bg);color:var(--text);transition:border-color .15s}
+.mfield input:focus,.mfield select:focus{outline:none;border-color:var(--green);background:#fff}
+
+/* ── MAIN ── */
+.main{max-width:700px;margin:0 auto;padding:20px 20px 80px}
+
+/* ── SECTION HEADER ── */
+.section-hdr{display:flex;align-items:center;gap:12px;margin:24px 0 10px}
+.section-num{width:32px;height:32px;border-radius:50%;background:var(--green-d);color:#fff;font-family:'Source Serif 4',serif;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-family:'Source Serif 4',serif;font-size:1rem;font-weight:700;color:var(--green-d)}
+.section-sub{font-size:.75rem;color:var(--tmut);margin-top:1px}
+
+/* ── BEROEPSTAAK CARD ── */
+.btc{background:var(--card);border-radius:12px;border:1.5px solid var(--bdr);margin-bottom:10px;overflow:hidden;box-shadow:var(--sh)}
+.btc.done{border-color:var(--green)}
+.btc.done .btc-hdr{background:linear-gradient(90deg,var(--green-50),#fff 70%)}
+.btc-hdr{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;background:#fff;transition:background .15s}
+.btc-hdr:hover{background:var(--acc)}
+.btc-id{font-size:.7rem;font-weight:700;color:var(--tmut);min-width:26px;font-family:'Source Serif 4',serif}
+.btc-name{flex:1;font-weight:600;font-size:.9rem;line-height:1.3;color:var(--text)}
+.btc-status{flex-shrink:0;display:flex;align-items:center;gap:6px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--bdrl);border:1.5px solid var(--bdr);flex-shrink:0;transition:all .2s}
+.btc.done .status-dot{background:var(--green);border-color:var(--green)}
+.status-label{font-size:.72rem;font-weight:600;color:var(--tmut)}
+.btc.done .status-label{color:var(--green)}
+.chev{font-size:.68rem;color:var(--tmut);transition:transform .2s;margin-left:4px}
+.btc.open .chev{transform:rotate(180deg)}
+
+.btc-body{display:none;border-top:1.5px solid var(--bdrl)}
+.btc.open .btc-body{display:block}
+.btc-inner{padding:16px;display:flex;flex-direction:column;gap:14px}
+
+/* ── VERWACHT NIVEAU ── */
+.niveau-block{background:var(--green-50);border:1px solid var(--green-100);border-radius:9px;padding:12px 14px}
+.niveau-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--green-d);margin-bottom:5px}
+.niveau-desc{font-size:.85rem;color:var(--tmid);line-height:1.55}
+
+/* ── ZELF BEOORDELEN ── */
+.assess-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tmut);margin-bottom:6px}
+.assess-btns{display:flex;gap:8px;flex-wrap:wrap}
+.assess-btn{border:1.5px solid var(--bdr);border-radius:20px;padding:7px 18px;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:.82rem;font-weight:600;background:#fff;color:var(--tmid);transition:all .15s;user-select:none}
+.assess-btn:hover:not(.locked){border-color:var(--green);background:var(--green-50);color:var(--green-d)}
+.assess-btn.prominent{padding:8px 22px;font-size:.88rem;border-width:2px}
+.assess-btn.sel-no{background:var(--bdrl);border-color:var(--bdr);color:var(--tmut)}
+.assess-btn.sel-yes{background:var(--green);border-color:var(--green);color:#fff}
+.assess-btn.locked{pointer-events:none;opacity:.65}
+
+/* ── REFLECTIE GRID ── */
+.refl-grid{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--bdr);border-radius:9px;overflow:hidden}
+.refl-col{display:flex;flex-direction:column}
+.refl-col+.refl-col{border-left:1.5px solid var(--bdr)}
+.refl-col-hdr{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:7px 12px;border-bottom:1px solid var(--bdr);background:var(--acc);color:var(--tmid)}
+.refl-col textarea{border:none;padding:10px 12px;font-family:'Source Sans 3',sans-serif;font-size:.82rem;color:var(--text);background:#fff;resize:vertical;min-height:75px;width:100%;line-height:1.5}
+.refl-col textarea:focus{outline:none;background:#fafff7}
+.refl-col textarea[readonly]{background:var(--bdrl);color:var(--tmut);cursor:not-allowed}
+
+/* ── DOCENT SECTIE ── */
+.teacher-sec{display:none;background:var(--teabg);border:1.5px solid var(--teabdr);border-radius:10px;padding:14px}
+.teacher-sec.on{display:block}
+.teacher-sec-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tea);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.teacher-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:12px}
+.tbtn{border:1.5px solid var(--teabdr);border-radius:8px;padding:6px 14px;font-family:'Source Sans 3',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;background:#fff;color:var(--tea);transition:all .15s}
+.tbtn:hover{background:var(--tea);color:#fff;border-color:var(--tea)}
+.tbtn.act{background:var(--tea);color:#fff;border-color:var(--tea)}
+.tbtn.approve{background:var(--green);color:#fff;border-color:var(--green)}
+.tbtn.approve:hover{background:var(--green-d)}
+.tbtn.approve.act{background:var(--green-d);border-color:var(--green-d)}
+
+/* SPR in teacher section */
+.spr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--teabdr);border-radius:8px;overflow:hidden;margin-top:4px}
+.spr-col{display:flex;flex-direction:column}
+.spr-col+.spr-col{border-left:1px solid var(--teabdr)}
+.spr-col-hdr{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:6px 9px;border-bottom:1px solid var(--teabdr);line-height:1.3}
+.spr-col-hdr span{font-weight:400;text-transform:none;font-style:italic;font-size:.6rem;display:block;margin-top:1px}
+.spr-verbeter .spr-col-hdr{background:#fff5f5;color:#b91c1c}
+.spr-midden .spr-col-hdr{background:var(--teabg);color:var(--tea);text-align:center}
+.spr-sterk .spr-col-hdr{background:var(--green-50);color:var(--green-d);text-align:right}
+.spr-field{border:none;padding:9px 10px;font-family:'Source Sans 3',sans-serif;font-size:.78rem;background:#fff;color:var(--text);resize:vertical;min-height:72px;flex:1;line-height:1.5;width:100%}
+.spr-field:focus{outline:none;background:#fffef8}
+.spr-niveau-desc{padding:9px 10px;font-size:.74rem;color:var(--tmid);line-height:1.45;font-style:italic;background:var(--teabg);flex:1}
+
+/* student view of SPR feedback */
+.spr-feedback{background:var(--green-50);border:1px solid var(--green-100);border-radius:9px;padding:11px 14px}
+.spr-feedback-hdr{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green-d);margin-bottom:7px}
+.spr-feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.8rem;line-height:1.5}
+.feedback-source-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:.68rem;color:var(--tmut)}
+.feedback-source-label{font-weight:600;color:var(--tmid)}
+.feedback-source-chip{border:1px solid var(--bdr);border-radius:12px;padding:2px 8px;background:#fff;cursor:pointer;user-select:none;transition:all .12s}
+.feedback-source-chip:hover{border-color:var(--green);color:var(--green-d)}
+.feedback-source-chip.sel{background:var(--green-50);border-color:var(--green-100);color:var(--green-d);font-weight:600}
+.feedback-summary{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:14px 16px;margin-top:22px;box-shadow:var(--sh)}
+.feedback-summary-title{font-family:'Source Serif 4',serif;font-size:.92rem;font-weight:700;color:var(--green-d);margin-bottom:8px}
+.feedback-triad{font-size:.75rem;color:var(--tmid);line-height:1.55;background:var(--green-50);border:1px solid var(--green-100);border-radius:8px;padding:8px 10px;margin-bottom:12px}
+.feedback-triad strong{color:var(--green-d)}
+.feedback-summary-grid{display:grid;grid-template-columns:1fr 170px;gap:12px}
+.feedback-summary textarea,.feedback-summary input[type="date"]{width:100%;border:1.5px solid var(--bdr);border-radius:8px;padding:9px 10px;font-family:'Source Sans 3',sans-serif;font-size:.82rem;background:var(--bg);color:var(--text)}
+.feedback-summary textarea:focus,.feedback-summary input[type="date"]:focus{outline:none;border-color:var(--green);background:#fff}
+.feedback-summary-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tmut);margin-bottom:5px}
+.spr-fb-label{font-size:.66rem;font-weight:700;margin-bottom:3px}
+.spr-fb-verbeter .spr-fb-label{color:#b91c1c}
+.spr-fb-sterk .spr-fb-label{color:var(--green-d)}
+
+/* approved stamp */
+.approved-stamp{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--green-d);font-weight:600;font-style:italic;background:var(--green-50);border:1px solid var(--green-100);border-radius:8px;padding:8px 12px}
+
+/* ── STATS BAR ── */
+.stats-bar{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:14px 20px;margin-bottom:20px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;box-shadow:var(--sh)}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat-val{font-family:'Source Serif 4',serif;font-size:1.4rem;font-weight:700;color:var(--green-d);line-height:1}
+.stat-label{font-size:.7rem;color:var(--tmut)}
+.stat-bar-wrap{flex:1;min-width:120px}
+.stat-bar{height:7px;background:var(--bdrl);border-radius:4px;overflow:hidden;margin-top:4px}
+.stat-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--green),var(--orange-l));transition:width .4s}
+
+/* ── PROGRESS RING (compact) ── */
+.progress-ring-wrap{display:flex;align-items:center;gap:10px}
+.ring-label{font-size:.72rem;color:var(--tmut);line-height:1.3}
+.ring-pct{font-family:'Source Serif 4',serif;font-size:1.1rem;font-weight:700;color:var(--green-d)}
+
+/* ── MODAL ── */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(40,60,20,.5);backdrop-filter:blur(5px);z-index:400;align-items:center;justify-content:center;padding:20px}
+.modal-ov.open{display:flex}
+.modal{background:var(--card);border-radius:16px;max-width:520px;width:100%;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shl)}
+.modal-hdr{background:var(--green-d);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.modal-hdr h2{font-family:'Source Serif 4',serif;font-size:1rem;font-weight:700}
+.modal-close{background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.9rem}
+.modal-close:hover{background:rgba(255,255,255,.3)}
+.modal-body{overflow-y:auto;padding:20px;flex:1}
+
+.pin-input{width:100%;text-align:center;font-family:'Source Serif 4',serif;font-size:2rem;letter-spacing:.3em;border:2px solid var(--teabdr);border-radius:10px;padding:13px;background:var(--teabg);color:var(--tea);margin:12px 0}
+.pin-input:focus{outline:none;border-color:var(--tea)}
+.pin-err{color:var(--err);font-size:.8rem;text-align:center;min-height:18px}
+.pin-submit{width:100%;background:var(--green);color:#fff;border:none;border-radius:20px;padding:11px;font-family:'Source Sans 3',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:4px}
+.pin-submit:hover{background:var(--green-d)}
+
+/* CONTRACT */
+.contract-empty{text-align:center;padding:32px;color:var(--tmut);font-size:.88rem}
+.cdoc-logo{font-family:'Source Serif 4',serif;font-size:1.3rem;font-weight:700;color:var(--green-d);margin-bottom:3px;display:flex;align-items:center;gap:9px}
+.cdoc-subtitle{font-size:.75rem;color:var(--tmut);margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--green-100)}
+.cdoc-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px 20px;background:#f8f8f4;border:1px solid #e0e0d4;border-radius:8px;padding:13px 16px;margin-bottom:18px;font-size:.8rem}
+.cdoc-meta-row{display:flex;gap:5px;align-items:baseline}
+.cdoc-meta-label{font-weight:700;color:var(--green-d);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;min-width:72px}
+.cdoc-meta-val{color:var(--tmid)}
+.cdoc-section-title{font-family:'Source Serif 4',serif;font-size:.92rem;font-weight:700;color:var(--green-d);margin:16px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--green-100)}
+.cdoc-subtask{margin-bottom:11px;border:1px solid #dde8da;border-radius:8px;overflow:hidden;break-inside:avoid}
+.cdoc-st-hdr{background:var(--green-50);padding:7px 13px;display:flex;align-items:center;gap:9px}
+.cdoc-st-id{font-family:'Source Serif 4',serif;font-size:.68rem;font-weight:700;color:var(--green)}
+.cdoc-st-name{flex:1;font-weight:600;font-size:.85rem}
+.cdoc-lvl-badge{font-size:.68rem;font-weight:700;padding:2px 9px;border-radius:5px;background:var(--orange);color:#fff;flex-shrink:0}
+.cdoc-niveau-row{padding:7px 13px;background:#fafcf7;border-bottom:1px solid #dde8da;font-size:.77rem;color:var(--tmid);font-style:italic;line-height:1.45}
+.cdoc-niveau-label{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green-d);margin-bottom:3px;font-style:normal}
+.cdoc-refl{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid #dde8da}
+.cdoc-refl-col{padding:8px 13px;font-size:.78rem;line-height:1.5}
+.cdoc-refl-col+.cdoc-refl-col{border-left:1px solid #dde8da}
+.cdoc-refl-label{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tmut);margin-bottom:3px}
+.cdoc-refl-val{color:var(--tmid)}
+.cdoc-refl-val.empty{color:#ccc;font-style:italic}
+.cdoc-spr{display:grid;grid-template-columns:1fr 1fr 1fr;font-size:.78rem}
+.cdoc-spr-col{padding:8px 11px;line-height:1.5}
+.cdoc-spr-col+.cdoc-spr-col{border-left:1px solid #dde8da}
+.cdoc-spr-hdr{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.cdoc-spr-verbeter{background:#fff8f8}.cdoc-spr-verbeter .cdoc-spr-hdr{color:#b91c1c}
+.cdoc-spr-midden{background:#fffbf0}.cdoc-spr-midden .cdoc-spr-hdr{color:var(--tea)}
+.cdoc-spr-sterk{background:var(--green-50)}.cdoc-spr-sterk .cdoc-spr-hdr{color:var(--green-d)}
+.cdoc-sign{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px;padding-top:18px;border-top:2px solid var(--bdr)}
+.cdoc-sign-label{font-size:.75rem;font-weight:600;color:var(--tmid);margin-bottom:4px}
+.cdoc-sign-line{border-bottom:1.5px solid #bbb;height:36px}
+.cdoc-sign-sub{font-size:.68rem;color:var(--tmut);margin-top:4px}
+.cdoc-footer{font-size:.63rem;color:#ccc;text-align:center;margin-top:16px;padding-top:10px;border-top:1px solid var(--bdrl)}
+
+/* ── PAGE TABS ── */
+.page-tabs{background:#fff;border-bottom:2px solid var(--bdr);display:flex;padding:0 20px;gap:0;position:sticky;top:64px;z-index:100}
+.page-tab{padding:13px 22px;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:600;color:var(--tmut);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;user-select:none;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.page-tab:hover{color:var(--green)}
+.page-tab.active{color:var(--green-d);border-bottom-color:var(--green)}
+.page-tab .tab-badge{background:var(--green);color:#fff;border-radius:10px;padding:1px 7px;font-size:.65rem;font-weight:700;min-width:18px;text-align:center}
+.page-tab .tab-num{background:var(--bdrl);color:var(--tmut);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700}
+.page-tab.active .tab-num{background:var(--green);color:#fff}
+.tab-next-btn{display:block;width:100%;background:var(--green);color:#fff;border:none;border-radius:20px;padding:11px 24px;font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;margin-top:20px;transition:background .15s;text-align:center}
+.tab-next-btn:hover{background:var(--green-d)}
+.page-panel{display:none}
+.page-panel.active{display:block}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:40px 20px;color:var(--tmut)}
+.empty-state strong{font-family:'Source Serif 4',serif;font-size:1.05rem;color:var(--tmid);display:block;margin-bottom:6px}
+
+/* ── GOAL CHIPS ── */
+.goal-ll-block{margin-bottom:12px}
+.goal-ll-name{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--tmut);margin-bottom:6px;padding-left:2px}
+.goal-chips{display:flex;flex-wrap:wrap;gap:6px}
+.goal-chip{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--bdr);border-radius:20px;padding:5px 13px;cursor:pointer;transition:all .15s;font-size:.8rem;background:var(--bg);color:var(--tmid);user-select:none}
+.goal-chip:hover{border-color:var(--green);background:var(--green-50);color:var(--green-d)}
+.goal-chip.sel{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+.goal-chip .gcheck{width:14px;height:14px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.58rem;flex-shrink:0}
+.goal-chip.sel .gcheck{background:#fff;border-color:#fff;color:var(--green)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:580px){
+  .header{padding:0 14px}
+  .intro-wrap,.main{padding-left:12px;padding-right:12px}
+  .meta-grid{grid-template-columns:1fr}
+  .refl-grid,.cdoc-refl,.cdoc-spr,.cdoc-meta,.feedback-summary-grid{grid-template-columns:1fr}
+  .refl-col+.refl-col,.spr-col+.spr-col{border-left:none;border-top:1px solid var(--bdr)}
+  .cdoc-refl-col+.cdoc-refl-col,.cdoc-spr-col+.cdoc-spr-col{border-left:none;border-top:1px solid #dde8da}
+  .cdoc-sign{grid-template-columns:1fr}
+  .stats-bar{gap:14px}
+  .hbtn-muted{display:none}
+}
+
+@media print{
+  .header,.hactions,.teacher-banner,.stats-bar,.btc,.modal-ov,.assess-btns,.teacher-sec,.refl-grid{display:none!important}
+  body{background:#fff}
+  .cdoc-subtask{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">
+    <svg viewBox="0 0 54 38" xmlns="http://www.w3.org/2000/svg" width="54" height="38">
+      <circle cx="14" cy="20" r="13" fill="#e8920a" opacity=".92"/>
+      <circle cx="24" cy="20" r="13" fill="#5a9520" opacity=".88"/>
+      <circle cx="14" cy="20" r="13" fill="#e8920a" opacity=".35"/>
+      <rect x="43" y="6" width="3" height="26" rx="1.5" fill="#3d6b14"/>
+      <rect x="41" y="10" width="7" height="1.5" rx=".75" fill="#3d6b14" opacity=".55"/>
+      <rect x="41" y="16" width="7" height="1.5" rx=".75" fill="#3d6b14" opacity=".55"/>
+      <rect x="41" y="22" width="7" height="1.5" rx=".75" fill="#3d6b14" opacity=".55"/>
+      <rect x="41" y="28" width="7" height="1.5" rx=".75" fill="#3d6b14" opacity=".55"/>
+      <rect x="40" y="19" width="9" height="2.5" rx="1.25" fill="#5a9520"/>
+    </svg>
+    <div class="header-title">
+      <h1>Beroepstaken Peilstok <span style="background:var(--green);color:#fff;border-radius:5px;padding:1px 8px;font-size:.72rem;font-weight:700;vertical-align:middle;margin-left:4px">⚡ Versneller</span></h1>
+      <p>Land- en Watermanagement — Scalda</p>
+    </div>
+  </div>
+  <div class="hactions">
+    <button class="hbtn hbtn-orange" onclick="openContract()">📄 Contract</button>
+    <button class="hbtn hbtn-primary" onclick="printBlankSPR()">🖨 Lege SPR</button>
+    <button class="hbtn hbtn-ghost" id="teacherBtn" onclick="onTeacherClick()">🎓 Docent</button>
+    <button class="hbtn hbtn-reset" onclick="openReset()">↺ Reset</button>
+  </div>
+</header>
+
+<div class="teacher-banner" id="teacherBanner">
+  🎓 <strong>Docentmodus actief</strong> — niveaus toewijzen, SPR invullen en aftekenen per beroepstaak.
+</div>
+
+<!-- PAGE TABS -->
+<nav class="page-tabs">
+  <div class="page-tab active" id="ptab-gegevens" onclick="setTab('gegevens')">
+    <span class="tab-num">1</span> Mijn gegevens
+  </div>
+  <div class="page-tab" id="ptab-doelen" onclick="setTab('doelen')">
+    <span class="tab-num">2</span> Mijn beroepstaken
+    <span class="tab-badge" id="doelen-badge" style="display:none">0</span>
+  </div>
+  <div class="page-tab" id="ptab-invullen" onclick="setTab('invullen')">
+    <span class="tab-num">3</span> Invullen
+  </div>
+  <div class="page-tab" id="ptab-docent" onclick="setTab('docent')">
+    <span class="tab-num">4</span> Met begeleider
+  </div>
+</nav>
+
+<!-- TAB 1: GEGEVENS -->
+<div class="page-panel active" id="panel-gegevens">
+  <div class="intro-wrap">
+    <div class="intro-card">
+      <div class="intro-card-hdr">
+        <h2>📋 Stap 1 — Mijn gegevens</h2>
+        <p>Vul je naam, klas en periode in. Ga daarna naar stap 2 om je beroepstaken te kiezen.</p>
+      </div>
+      <div class="intro-card-body">
+        <div class="meta-grid">
+          <div class="mfield"><label>Naam student</label><input id="f_name" type="text" placeholder="Jouw naam..." oninput="sf('name',this.value)"></div>
+          <div class="mfield"><label>Naam docent</label><input id="f_teacher" type="text" placeholder="Naam van je docent..." oninput="sf('teacher',this.value)"></div>
+          <div class="mfield"><label>Klas / groep</label><input id="f_class" type="text" placeholder="Bijv. LW1A" oninput="sf('class',this.value)"></div>
+          <div class="mfield"><label>Schooljaar</label><input id="f_year" type="text" placeholder="Bijv. 2025–2026" oninput="sf('year',this.value)"></div>
+          <div class="mfield"><label>Mijn studiejaar</label><select id="f_studyear" onchange="sf('studyear',this.value);onStudyYearChange(this.value)"><option value="">— Kies jaar —</option><option value="1">Jaar 1</option><option value="2">Jaar 2</option><option value="3">Jaar 3</option></select></div>
+          <div class="mfield"><label>Periode / blok</label><input id="f_period" type="text" placeholder="Bijv. Periode 2" oninput="sf('period',this.value)"></div>
+        </div>
+        <button class="tab-next-btn" onclick="setTab('doelen')">Naar stap 2 — Beroepstaken kiezen →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: DOELEN KIEZEN -->
+<div class="page-panel" id="panel-doelen">
+  <div class="intro-wrap">
+    <div class="intro-card">
+      <div class="intro-card-hdr" style="background:linear-gradient(135deg,#3d6b14,#5a9520)">
+        <h2>⭐ Stap 2 — Mijn beroepstaken deze periode</h2>
+        <p>Klik op de beroepstaken waaraan je deze periode werkt. Je ziet alleen die taken bij stap 3.</p>
+      </div>
+      <div class="intro-card-body">
+        <div id="goalGrid"></div>
+        <button class="tab-next-btn" onclick="setTab('invullen')">Naar stap 3 — Invullen →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: INVULLEN -->
+<div class="page-panel" id="panel-invullen">
+  <div class="main">
+    <div class="stats-bar" id="statsBar"></div>
+    <div id="content"></div>
+  </div>
+</div>
+
+<!-- TAB 4: MET BEGELEIDER/DOCENT -->
+<div class="page-panel" id="panel-docent">
+  <div class="main">
+    <div id="docent-lock" style="display:none;text-align:center;padding:48px 24px">
+      <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
+      <div style="font-family:'Source Serif 4',serif;font-size:1.1rem;font-weight:700;color:var(--green-d);margin-bottom:8px">Docentmodus vereist</div>
+      <div style="font-size:.85rem;color:var(--tmid);margin-bottom:20px;line-height:1.5">Dit tabblad is alleen toegankelijk voor de begeleider of docent.<br>Activeer docentmodus via de knop rechtsboven.</div>
+      <button onclick="onTeacherClick()" style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:11px 24px;font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer">🎓 Docentmodus activeren</button>
+    </div>
+    <div id="docent-content-wrap">
+      <div style="background:var(--teabg);border:1.5px solid var(--teabdr);border-radius:12px;padding:14px 18px;margin-bottom:20px">
+        <div style="font-size:.82rem;color:var(--tea);font-weight:600;margin-bottom:3px">🎓 Docentmodus actief</div>
+        <div style="font-size:.78rem;color:var(--tmid);line-height:1.5">Wijs niveaus toe, vul de single point rubric in en teken af per beroepstaak.</div>
+      </div>
+      <div id="teacher-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="modal-ov" id="pinModal">
+  <div class="modal">
+    <div class="modal-hdr"><h2>🎓 Docentmodus</h2><button class="modal-close" onclick="closePin()">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:.82rem;color:var(--tmid);margin-bottom:4px">Voer de toegangscode in.</p>
+      <input class="pin-input" type="password" id="pinInput" maxlength="6" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPin()">
+      <div class="pin-err" id="pinErr"></div>
+      <button class="pin-submit" onclick="checkPin()">Activeren</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESET MODAL -->
+<div class="modal-ov" id="resetModal">
+  <div class="modal">
+    <div class="modal-hdr" style="background:#b91c1c"><h2>↺ Alles resetten</h2><button class="modal-close" onclick="closeReset()">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:.82rem;color:var(--tmid);margin-bottom:8px;line-height:1.5">Typ <strong>1234</strong> om alle voortgang te wissen.</p>
+      <input class="pin-input" style="border-color:#fca5a5;background:#fff5f5;color:#b91c1c" type="text" id="resetInput" maxlength="4" placeholder="1234" onkeydown="if(event.key==='Enter')confirmReset()">
+      <div class="pin-err" id="resetErr"></div>
+      <button class="pin-submit" style="background:#b91c1c" onclick="confirmReset()">Alles wissen</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTRACT MODAL -->
+<div class="modal-ov" id="contractModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-hdr">
+      <h2>📄 Peilstok Contract</h2>
+      <button class="modal-close" onclick="closeContract()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid var(--bdr)">
+        <button onclick="printContract()" style="background:var(--green-d);color:#fff;border:none;border-radius:20px;padding:8px 18px;font-family:'Source Sans 3',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer">🖨 Afdrukken / PDF</button>
+      </div>
+      <div id="contractDoc"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════
+// DATA — alleen Jaar 1
+// ══════════════════════════════════
+const PIN = '5175';
+const STORE_KEY = 'peilstok_versneller';
+
+// Alle beroepstaken met Jaar 1 beschrijving (index 0) en naam
+const TAKEN = [
+  // Observeren
+  {id:'1.1', ll:'Observeren', name:'Metingen uitvoeren',       desc:'Doet basismetingen met eenvoudige apparatuur. Werkt volgens instructie en in teamverband.'},
+  {id:'1.2', ll:'Observeren', name:'Waarnemingen registreren', desc:'Noteert waarnemingen volgens een vast formulier. Maakt eenvoudige beschrijvingen.'},
+  {id:'1.3', ll:'Observeren', name:'Onderzoek uitvoeren',      desc:'Voert klein onderzoek uit volgens een vast protocol. Maakt eenvoudige conclusies.'},
+  {id:'1.4', ll:'Observeren', name:'Bevindingen rapporteren',  desc:'Maakt een korte rapportage. Gebruikt enkele vaktermen.'},
+  {id:'1.5', ll:'Observeren', name:'Signaleren van bijzonderheden', desc:'Herkent zichtbare problemen en meldt dit aan begeleider.'},
+  // Ontwerpen
+  {id:'2.1', ll:'Ontwerpen', name:'Onderzoeken en onderbouwen', desc:'Zoekt bestaande ideeën en voorbeelden om ontwerpkeuzes te onderbouwen.'},
+  {id:'2.2', ll:'Ontwerpen', name:'Schetsen en ontwerpen maken', desc:'Maakt schetsen met potlood of basaal digitaal programma. Houdt rekening met 1–2 omgevingsfactoren. Duurzaamheid komt tot uiting in eenvoudige keuzes.'},
+  {id:'2.3', ll:'Ontwerpen', name:'Beplantings- en beheerplannen', desc:'Stelt een eenvoudig beplantingsplan of beheerschema op met hulp.'},
+  {id:'2.4', ll:'Ontwerpen', name:'Digitale ontwerpmiddelen gebruiken', desc:'Leert basisvaardigheden in digitale programma\'s (Google Earth, eenvoudige GIS-viewer).'},
+  {id:'2.5', ll:'Ontwerpen', name:'Presenteren en communiceren', desc:'Licht eenvoudige ontwerpschetsen toe aan klasgenoten. Gebruikt basale vaktermen.'},
+  // Realiseren
+  {id:'3.1', ll:'Realiseren', name:'Materieel instellen en gebruiken', desc:'Stelt machines en gereedschap in volgens duidelijke instructies.'},
+  {id:'3.2', ll:'Realiseren', name:'Doelmatig inzetten van middelen',  desc:'Haalt materialen op en zet ze klaar. Voorkomt verspilling door aanwijzingen op te volgen.'},
+  {id:'3.3', ll:'Realiseren', name:'Week- en dagplanningen uitwerken', desc:'Maakt een eenvoudige dagplanning onder begeleiding. Houdt zich aan afspraken.'},
+  {id:'3.4', ll:'Realiseren', name:'Bijdragen aan veilige werkomgeving', desc:'Volgt veiligheidsregels en draagt de juiste PBM\'s. Meldt onveilige situaties.'},
+  {id:'3.5', ll:'Realiseren', name:'Aanleg- en onderhoudswerkzaamheden', desc:'Voert eenvoudige werkzaamheden uit zoals gras maaien of slootkanten schonen.'},
+  {id:'3.6', ll:'Realiseren', name:'Administreren en documenteren', desc:'Vult eenvoudige logboeken of checklijsten in.'},
+  {id:'3.7', ll:'Realiseren', name:'Opleveren en evalueren', desc:'Controleert eigen werk met een checklist en bespreekt het in de nabespreking.'},
+  {id:'3.8', ll:'Realiseren', name:'Samenwerken met stakeholders', desc:'Werkt samen met team en begeleider. Overlegt en geeft aan wat nodig is.'},
+  // Leiden en begeleiden
+  {id:'4.1', ll:'Leiden en begeleiden', name:'Reflecteren op samenwerking', desc:'Denkt na over de rol in het team en luistert naar tips.'},
+  {id:'4.2', ll:'Leiden en begeleiden', name:'Communiceren',   desc:'Praat en luistert duidelijk binnen de klas.'},
+  {id:'4.3', ll:'Leiden en begeleiden', name:'Motiveren',      desc:'Laat enthousiasme zien voor duurzame projecten.'},
+  {id:'4.4', ll:'Leiden en begeleiden', name:'Plannen aanpassen', desc:'Maakt een simpele planning met hulp.'},
+  {id:'4.5', ll:'Leiden en begeleiden', name:'Informeren en instrueren', desc:'Geeft basisinfo onder begeleiding.'},
+  {id:'4.6', ll:'Leiden en begeleiden', name:'Kwaliteit en voortgang bewaken', desc:'Volgt de uitvoering met hulp en meldt problemen.'},
+  {id:'4.7', ll:'Leiden en begeleiden', name:'Stakeholders betrekken', desc:'Herkent betrokkenen met hulp.'},
+  {id:'4.8', ll:'Leiden en begeleiden', name:'Activiteiten organiseren', desc:'Helpt mee bij kleine activiteiten.'},
+  {id:'4.9', ll:'Leiden en begeleiden', name:'Internationaal samenwerken', desc:'Leert Engelse vaktermen en werkt met buitenlandse studenten.'},
+  // Borgen
+  {id:'5.1', ll:'Borgen', name:'Werkinstructie schrijven', desc:'Leest en volgt bestaande werkinstructies. Kan benoemen waarom stappen in een bepaalde volgorde staan.'},
+  {id:'5.2', ll:'Borgen', name:'Vakgebied volgen',         desc:'Leest aangereikte artikelen uit vakbladen en vertelt waar ze over gaan.'},
+  {id:'5.3', ll:'Borgen', name:'Probleemstelling/onderzoeksvraag', desc:'Herkent een probleem als de docent dit aanwijst. Leert wat een goede onderzoeksvraag is.'},
+  {id:'5.4', ll:'Borgen', name:'Controleplan opstellen',   desc:'Controleert werk volgens een checklist van de docent.'},
+  {id:'5.5', ll:'Borgen', name:'Controles uitvoeren',      desc:'Voert eenvoudige controles uit onder begeleiding. Gebruikt een controlelijst.'},
+  {id:'5.6', ll:'Borgen', name:'Werk opleveren',           desc:'Vult een eenvoudig opleverformulier in met hulp van de docent.'},
+  {id:'5.7', ll:'Borgen', name:'Werk evalueren',           desc:'Bespreekt wat goed ging en wat beter kon. Schrijft op wat geleerd is.'},
+];
+
+// Group by leerlijn
+const LEERLIJNEN = [...new Set(TAKEN.map(t => t.ll))];
+
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+let S = {
+  teacherMode: false,
+  activeTab: 'gegevens',
+  fields: {},
+  goals: {},       // id -> bool (selected as goal this period)
+  studentLevels: {}, // id -> 0..4 (SOLO level student claims)
+  reflections: {}, // id -> { bewijs, stap }
+  teacherLevels: {},
+  teacherApproved: {},
+  teacherSPR: {},  // id -> { verbeter, sterk }
+  openCards: {},
+  feedbackSummary: { opvallend:'', terugkijkDatum:'' },
+};
+
+function load() {
+  try {
+    const r = localStorage.getItem(STORE_KEY);
+    if (r) {
+      S = Object.assign(S, JSON.parse(r));
+      // Migratie: in een eerdere versie betekende niveau 0 'Nog niet'.
+      // Vanaf deze versie is 0 = nog geen keuze en -1 = nog niet op beginnerniveau.
+      Object.keys(S.studentLevels || {}).forEach(id => { if (S.studentLevels[id] === 0) S.studentLevels[id] = -1; });
+    }
+  } catch(e) {}
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch(e) {}
+}
+function sf(k, v) { S.fields[k] = v; save(); }
+
+// ══════════════════════════════════
+// RENDER
+// ══════════════════════════════════
+function onStudyYearChange(val) {
+  const y = parseInt(val);
+  if (y >= 1 && y <= 3) DEFAULT_YEAR = y;
+  renderContent();
+  renderTeacherContent();
+}
+
+function updateDocentTab() {
+  const lock = document.getElementById('docent-lock');
+  const wrap = document.getElementById('docent-content-wrap');
+  if (!lock || !wrap) return;
+  if (S.teacherMode) {
+    lock.style.display = 'none';
+    wrap.style.display = 'block';
+  } else {
+    lock.style.display = 'block';
+    wrap.style.display = 'none';
+  }
+}
+
+function setTab(tab) {
+  S.activeTab = tab;
+  save();
+  document.querySelectorAll('.page-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.page-panel').forEach(el => el.classList.remove('active'));
+  document.getElementById('ptab-' + tab).classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'docent') updateDocentTab();
+}
+
+function updateGoalBadge() {
+  const n = TAKEN.filter(t => S.goals[t.id]).length;
+  const badge = document.getElementById('doelen-badge');
+  if (badge) { badge.textContent = n; badge.style.display = n ? 'inline-flex' : 'none'; }
+}
+
+function render() {
+  renderGoalGrid();
+  renderStats();
+  renderContent();
+  renderTeacherContent();
+  updateGoalBadge();
+}
+
+function renderGoalGrid() {
+  const el = document.getElementById('goalGrid');
+  if (!el) return;
+  el.innerHTML = LEERLIJNEN.map(ll => {
+    const taken = TAKEN.filter(t => t.ll === ll);
+    const chips = taken.map(t => {
+      const sel = S.goals[t.id] ? 'sel' : '';
+      return `<div class="goal-chip ${sel}" onclick="toggleGoal('${t.id}')">
+        <span class="gcheck">${S.goals[t.id]?'✓':''}</span>
+        ${t.id} ${t.name}
+      </div>`;
+    }).join('');
+    return `<div class="goal-ll-block">
+      <div class="goal-ll-name">${ll}</div>
+      <div class="goal-chips">${chips}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleGoal(id) {
+  S.goals[id] = !S.goals[id];
+  save();
+  renderGoalGrid();
+  renderStats();
+  renderContent();
+  renderTeacherContent();
+  updateGoalBadge();
+}
+
+function renderStats() {
+  const goalSubs = TAKEN.filter(t => S.goals[t.id]);
+  const claimed  = goalSubs.filter(t => Object.prototype.hasOwnProperty.call(S.studentLevels || {}, t.id) && S.studentLevels[t.id] !== 0).length;
+  const advanced = goalSubs.filter(t => (S.studentLevels[t.id]||0) >= 3).length;
+  const approved = goalSubs.filter(t => S.teacherApproved[t.id]).length;
+  const total    = goalSubs.length;
+  const pct      = total ? Math.round((approved / total) * 100) : 0;
+
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="stat-val">${total}</div><div class="stat-label">Gekozen taken</div></div>
+    <div class="stat"><div class="stat-val">${claimed}</div><div class="stat-label">Niveau ingevuld</div></div>
+    <div class="stat"><div class="stat-val">${advanced}</div><div class="stat-label">⚡ Gevorderd+</div></div>
+    <div class="stat"><div class="stat-val">${approved}</div><div class="stat-label">Afgetekend</div></div>
+    <div class="stat-bar-wrap">
+      <div style="font-size:.7rem;color:var(--tmut);margin-bottom:3px">Voortgang afgetekend</div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:.68rem;color:var(--tmut);margin-top:3px">${pct}%${total?' ('+approved+' van '+total+')':''}</div>
+    </div>`;
+}
+
+function renderContent() {
+  const el = document.getElementById('content');
+  if (!el) return;
+
+  const goalSubs = TAKEN.filter(t => S.goals[t.id]);
+
+  if (!goalSubs.length) {
+    el.innerHTML = `<div class="empty-state">
+      <strong>Nog geen beroepstaken gekozen</strong>
+      Selecteer hierboven de taken waaraan je deze periode werkt.
+    </div>`;
+    return;
+  }
+
+  let html = '';
+  LEERLIJNEN.forEach((ll, i) => {
+    const taken = goalSubs.filter(t => t.ll === ll);
+    if (!taken.length) return;
+    const num = taken[0].id.split('.')[0];
+    html += `<div class="section-hdr">
+      <div class="section-num">${num}</div>
+      <div><div class="section-title">${ll}</div></div>
+    </div>`;
+    taken.forEach(t => { html += renderCard(t); });
+  });
+
+  const fs = S.feedbackSummary || {opvallend:'', terugkijkDatum:''};
+  html += `<div class="feedback-summary">
+    <div class="feedback-summary-title">Terugblik op mijn feedback</div>
+    <div class="feedback-triad">
+      <strong>Feed up</strong> — waar ga ik naartoe? &nbsp;·&nbsp;
+      <strong>Feedback</strong> — hoe ga ik? &nbsp;·&nbsp;
+      <strong>Feed forward</strong> — wat is mijn volgende stap?
+    </div>
+    <div class="feedback-summary-grid">
+      <div>
+        <div class="feedback-summary-label">Wat valt mij op aan de feedback?</div>
+        <textarea rows="3" placeholder="Bijv. wat komt overeen, wat verschilt, wat neem ik mee?"
+          oninput="saveFeedbackSummary('opvallend',this.value)">${fs.opvallend||''}</textarea>
+      </div>
+      <div>
+        <div class="feedback-summary-label">Wanneer kijk ik terug?</div>
+        <input type="date" value="${fs.terugkijkDatum||''}"
+          onchange="saveFeedbackSummary('terugkijkDatum',this.value)">
+      </div>
+    </div>
+  </div>`;
+
+  el.innerHTML = html;
+}
+
+function renderCard(t) {
+  const studentLv  = Object.prototype.hasOwnProperty.call(S.studentLevels || {}, t.id) ? S.studentLevels[t.id] : 0;
+  const approved   = !!S.teacherApproved[t.id];
+  const tLv        = S.teacherLevels[t.id];
+  const spr        = S.teacherSPR[t.id] || {};
+  const ref        = S.reflections[t.id] || {};
+  const isOpen     = !!S.openCards[t.id];
+  const hasFeedback = spr.verbeter || spr.sterk;
+  const lvLabels   = {'-1':'Nog niet op beginnerniveau','0':'—','1':'Beginner','2':'Geoefend','3':'Gevorderd','4':'Startbekwaam'};
+  const lvColors   = {'-1':'#8f8f7a','0':'','1':'#3d6b14','2':'#1e40af','3':'#6b21a8','4':'#1a3a0e'};
+  const lvBg       = {'-1':'#f4f4f1','0':'','1':'#f0faf4','2':'#eff6ff','3':'#faf5ff','4':'#f0f5e8'};
+
+  const approvedStamp = approved
+    ? `<div class="approved-stamp">✅ Afgetekend op niveau <strong>${lvLabels[(tLv ?? studentLv) || 1]}</strong></div>`
+    : '';
+
+  const sprFeedback = hasFeedback && !S.teacherMode ? `
+    <div class="spr-feedback">
+      <div class="spr-feedback-hdr">💬 Feedback van je docent</div>
+      <div class="spr-feedback-grid">
+        ${spr.verbeter ? `<div class="spr-fb-verbeter"><div class="spr-fb-label">⬅ Verbeterpunten</div>${spr.verbeter}</div>` : ''}
+        ${spr.sterk    ? `<div class="spr-fb-sterk"><div class="spr-fb-label">Sterke punten ➡</div>${spr.sterk}</div>` : ''}
+      </div>
+    </div>` : '';
+
+  return `<div class="btc${studentLv!==0?' done':''}${isOpen?' open':''}" id="btc_${t.id.replace('.','_')}">
+    <div class="btc-hdr" onclick="toggleCard('${t.id}')">
+      <span class="btc-id">${t.id}</span>
+      <span class="btc-name">${t.name}</span>
+      <div class="btc-status">
+        <span class="status-dot" style="${studentLv!==0?'background:'+lvColors[studentLv]+';border-color:'+lvColors[studentLv]:''}"></span>
+        <span class="status-label">${approved ? '✓ Afgetekend' : studentLv!==0 ? '⚡ '+lvLabels[studentLv] : 'Open'}</span>
+        <span class="chev">▼</span>
+      </div>
+    </div>
+    <div class="btc-body">
+      <div class="btc-inner">
+
+        <!-- Alle SOLO niveaus -->
+        <div style="border:1.5px solid var(--bdr);border-radius:9px;overflow:hidden;background:var(--bg)">
+          <div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tmut);padding:8px 12px 6px">Wat wordt er verwacht — alle niveaus</div>
+          ${[
+            {lbl:'Beginner',     hdr:'#3d6b14', bg:'#f0faf4', bdr:'#d4ebaf', i:0},
+            {lbl:'Geoefend',     hdr:'#1e40af', bg:'#eff6ff', bdr:'#bfdbfe', i:1},
+            {lbl:'Gevorderd',    hdr:'#6b21a8', bg:'#faf5ff', bdr:'#e9d5ff', i:2},
+            {lbl:'Startbekwaam', hdr:'#1a3a0e', bg:'#f0f5e8', bdr:'#b7e4a0', i:3},
+          ].map(c => {
+            const isDefault = (c.i+1) === DEFAULT_YEAR;
+            const isSel = studentLv === (c.i+1);
+            const desc = (ALL_DESCS[t.id]||[])[c.i] || t.desc;
+            return `<div style="padding:7px 12px;border-top:1px solid var(--bdrl);background:${isSel?c.bg:isDefault?c.bg+'99':''}">
+              <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:${c.hdr};margin-bottom:3px">
+                ${c.lbl}${isDefault?' ★':''}${isSel?' ✓':''}
+              </div>
+              <div style="font-size:.8rem;color:var(--tmid);line-height:1.5">${desc}</div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <!-- Zelf beoordelen — alle SOLO niveaus -->
+        <div>
+          <div class="assess-label">Op welk niveau beheers ik dit?</div>
+          <div class="assess-btns">
+            <div class="assess-btn ${approved?'locked':''} ${studentLv===-1?'sel-no':''}"
+              onclick="${approved?'':'setStudentLevel(\''+t.id+'\',-1)'}">Nog niet op beginnerniveau</div>
+            <div class="assess-btn ${approved?'locked':''}"
+              style="${studentLv===1?'background:#3d6b14;border-color:#3d6b14;color:#fff':''}"
+              onclick="${approved?'':'setStudentLevel(\''+t.id+'\',1)'}">Beginner</div>
+            <div class="assess-btn ${approved?'locked':''}"
+              style="${studentLv===2?'background:#1e40af;border-color:#1e40af;color:#fff':''}"
+              onclick="${approved?'':'setStudentLevel(\''+t.id+'\',2)'}">Geoefend</div>
+            <div class="assess-btn ${approved?'locked':''}"
+              style="${studentLv===3?'background:#6b21a8;border-color:#6b21a8;color:#fff':''}"
+              onclick="${approved?'':'setStudentLevel(\''+t.id+'\',3)'}">Gevorderd</div>
+            <div class="assess-btn prominent ${approved?'locked':''}"
+              style="${studentLv===4?'background:#1a3a0e;border-color:#1a3a0e;color:#fff':''}"
+              onclick="${approved?'':'setStudentLevel(\''+t.id+'\',4)'}">⚡ Startbekwaam</div>
+          </div>
+        </div>
+
+        <!-- Reflectie -->
+        <div class="refl-grid">
+          <div class="refl-col">
+            <div class="refl-col-hdr">📸 Bewijs — wat heb ik al laten zien?</div>
+            <textarea id="r_b_${t.id.replace('.','_')}"
+              placeholder="Verwijs naar foto's, verslagen, handtekeningen, stage..."
+              rows="3" ${approved?'readonly':''}
+              oninput="saveRefl('${t.id}','bewijs',this.value)"
+            >${ref.bewijs||''}</textarea>
+          </div>
+          <div class="refl-col">
+            <div class="refl-col-hdr">🎯 Volgende stap — hoe verder ontwikkelen?</div>
+            <textarea id="r_s_${t.id.replace('.','_')}"
+              placeholder="Beschrijf wat je nog wilt leren of verbeteren..."
+              rows="3" ${approved?'readonly':''}
+              oninput="saveRefl('${t.id}','stap',this.value)"
+            >${ref.stap||''}</textarea>
+          </div>
+        </div>
+
+        <div class="feedback-source-row">
+          <span class="feedback-source-label">Feedback van:</span>
+          ${['Medestudent','Vakdocent','Praktijkbegeleider','Expert/opdrachtgever'].map(src => {
+            const sources = ref.sources || [];
+            const sel = sources.includes(src) ? ' sel' : '';
+            return `<span class="feedback-source-chip${sel}" onclick="${approved?'':'toggleFeedbackSource(\''+t.id+'\',\''+src.replace(/'/g,"\\'")+'\')'}">${src}</span>`;
+          }).join('')}
+        </div>
+
+        ${approvedStamp}
+        ${sprFeedback}
+
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════
+function toggleCard(id) {
+  S.openCards[id] = !S.openCards[id];
+  save();
+  const el = document.getElementById('btc_'+id.replace('.','_'));
+  if (el) el.classList.toggle('open');
+}
+
+function setStudentLevel(id, lv) {
+  if (S.teacherApproved[id]) return;
+  S.studentLevels[id] = lv;
+  save();
+  refreshCard(id);
+  renderStats();
+}
+
+function saveRefl(id, key, val) {
+  if (!S.reflections[id]) S.reflections[id] = {};
+  S.reflections[id][key] = val;
+  save();
+}
+
+function toggleFeedbackSource(id, source) {
+  if (S.teacherApproved[id]) return;
+  if (!S.reflections[id]) S.reflections[id] = {};
+  if (!Array.isArray(S.reflections[id].sources)) S.reflections[id].sources = [];
+  const i = S.reflections[id].sources.indexOf(source);
+  if (i >= 0) S.reflections[id].sources.splice(i,1);
+  else S.reflections[id].sources.push(source);
+  save();
+  refreshCard(id);
+}
+
+function saveFeedbackSummary(key, val) {
+  if (!S.feedbackSummary) S.feedbackSummary = { opvallend:'', terugkijkDatum:'' };
+  S.feedbackSummary[key] = val;
+  save();
+}
+
+function setTeacherLevel(id, lv) {
+  if (!S.teacherMode) return;
+  S.teacherLevels[id] = lv;
+  save();
+  refreshCard(id);
+  refreshTeacherCard(id);
+}
+
+function saveSPR(id, field, val) {
+  if (!S.teacherMode) return;
+  if (!S.teacherSPR[id]) S.teacherSPR[id] = {};
+  S.teacherSPR[id][field] = val;
+  save();
+}
+
+function toggleApprove(id) {
+  if (!S.teacherMode) return;
+  S.teacherApproved[id] = !S.teacherApproved[id];
+  if (S.teacherApproved[id] && S.teacherLevels[id] == null) S.teacherLevels[id] = DEFAULT_YEAR;
+  save();
+  refreshCard(id);
+  refreshTeacherCard(id);
+  renderStats();
+  renderTeacherContent();
+  buildContractDoc();
+}
+
+function refreshTeacherCard(id) {
+  const safeId = id.replace('.','_');
+  const el = document.getElementById('tc_' + safeId);
+  if (!el) return;
+
+  // Flush any unsaved textarea values before replacing the DOM
+  const verbeter = el.querySelector('[oninput*="verbeter"]');
+  const sterk    = el.querySelector('[oninput*="sterk"]');
+  if (verbeter) { if (!S.teacherSPR[id]) S.teacherSPR[id] = {}; S.teacherSPR[id].verbeter = verbeter.value; }
+  if (sterk)    { if (!S.teacherSPR[id]) S.teacherSPR[id] = {}; S.teacherSPR[id].sterk    = sterk.value; }
+  // Also flush per-level SPR notes
+  el.querySelectorAll('textarea[oninput*="saveSPRKey"]').forEach(ta => {
+    const m = ta.getAttribute('oninput').match(/'([^']+)','(spr_[^']+)'/);
+    if (m) { if (!S.teacherSPR[id]) S.teacherSPR[id] = {}; S.teacherSPR[id][m[2]] = ta.value; }
+  });
+  save();
+
+  const wasOpen = document.getElementById('tcb_' + safeId)?.style.display === 'block';
+  const t = TAKEN.find(x => x.id === id);
+  if (!t) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = renderTeacherCard(t);
+  const nc = tmp.firstElementChild;
+  el.parentNode.replaceChild(nc, el);
+  if (wasOpen) {
+    const newBody = document.getElementById('tcb_' + safeId);
+    if (newBody) newBody.style.display = 'block';
+  }
+}
+
+function refreshCard(id) {
+  const el = document.getElementById('btc_'+id.replace('.','_'));
+  if (!el) return;
+  const wasOpen = el.classList.contains('open');
+  const t = TAKEN.find(x => x.id === id);
+  if (!t) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = renderCard(t);
+  const nc = tmp.firstElementChild;
+  if (wasOpen) nc.classList.add('open');
+  el.parentNode.replaceChild(nc, el);
+}
+
+// ══════════════════════════════════
+// TEACHER MODE
+// ══════════════════════════════════
+function onTeacherClick() {
+  if (S.teacherMode) {
+    S.teacherMode = false; save();
+    document.getElementById('teacherBtn').textContent = '🎓 Docent';
+    document.getElementById('teacherBanner').classList.remove('on');
+    render();
+  } else {
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinErr').textContent = '';
+    document.getElementById('pinModal').classList.add('open');
+    setTimeout(() => document.getElementById('pinInput').focus(), 80);
+  }
+}
+function checkPin() {
+  if (document.getElementById('pinInput').value === PIN) {
+    S.teacherMode = true; save();
+    closePin();
+    document.getElementById('teacherBtn').textContent = '🎓 Docent: AAN';
+    document.getElementById('teacherBanner').classList.add('on');
+    render();
+  } else {
+    document.getElementById('pinErr').textContent = 'Onjuiste code.';
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
+  }
+}
+function closePin() { document.getElementById('pinModal').classList.remove('open'); }
+
+// ══════════════════════════════════
+// RESET
+// ══════════════════════════════════
+function openReset() {
+  document.getElementById('resetInput').value = '';
+  document.getElementById('resetErr').textContent = '';
+  document.getElementById('resetModal').classList.add('open');
+  setTimeout(() => document.getElementById('resetInput').focus(), 80);
+}
+function closeReset() { document.getElementById('resetModal').classList.remove('open'); }
+function confirmReset() {
+  if (document.getElementById('resetInput').value === '1234') {
+    localStorage.removeItem(STORE_KEY); location.reload();
+  } else {
+    document.getElementById('resetErr').textContent = 'Typ precies 1234 om te bevestigen.';
+    document.getElementById('resetInput').value = '';
+    document.getElementById('resetInput').focus();
+  }
+}
+
+// ══════════════════════════════════
+// CONTRACT
+// ══════════════════════════════════
+function buildContractDoc() {
+  const f = S.fields;
+  const today = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+  const approved = TAKEN.filter(t => S.teacherApproved[t.id]);
+
+  if (!approved.length) {
+    document.getElementById('contractDoc').innerHTML = `<div class="contract-empty">
+      <strong>Nog niets afgetekend</strong>
+      Zodra de docent een beroepstaak afteekent, verschijnt die hier.
+    </div>`;
+    return;
+  }
+
+  // Group approved by leerlijn
+  let sections = '';
+  LEERLIJNEN.forEach(ll => {
+    const subs = approved.filter(t => t.ll === ll);
+    if (!subs.length) return;
+    sections += `<div class="cdoc-section-title">${ll}</div>`;
+    subs.forEach(t => {
+      const tLv = S.teacherLevels[t.id] ?? 1;
+      const lvLabels = {'-1':'Nog niet op beginnerniveau','1':'Beginner','2':'Geoefend','3':'Gevorderd','4':'Startbekwaam'};
+      const ref = S.reflections[t.id] || {};
+      const spr = S.teacherSPR[t.id] || {};
+      const bronVal = (ref.sources || []).join(', ');
+      sections += `<div class="cdoc-subtask">
+        <div class="cdoc-st-hdr">
+          <span class="cdoc-st-id">${t.id}</span>
+          <span class="cdoc-st-name">${t.name}</span>
+          <span class="cdoc-lvl-badge">✓ ${lvLabels[tLv]}</span>
+        </div>
+        <div class="cdoc-niveau-row">
+          <div class="cdoc-niveau-label">Verwacht niveau Jaar 1</div>
+          ${t.desc}
+        </div>
+        ${bronVal ? `<div style="padding:6px 13px;border-bottom:1px solid #dde8da;font-size:.72rem;color:#777"><strong style="color:#555">Feedback van:</strong> ${bronVal}</div>` : ''}
+        <div class="cdoc-refl">
+          <div class="cdoc-refl-col">
+            <div class="cdoc-refl-label">📸 Bewijs</div>
+            <div class="cdoc-refl-val${!ref.bewijs?' empty':''}">${ref.bewijs||'—'}</div>
+          </div>
+          <div class="cdoc-refl-col">
+            <div class="cdoc-refl-label">🎯 Volgende stap</div>
+            <div class="cdoc-refl-val${!ref.stap?' empty':''}">${ref.stap||'—'}</div>
+          </div>
+        </div>
+        <div class="cdoc-spr">
+          <div class="cdoc-spr-col cdoc-spr-verbeter">
+            <div class="cdoc-spr-hdr">⬅ Verbeterpunten</div>
+            <div>${spr.verbeter||'—'}</div>
+          </div>
+          <div class="cdoc-spr-col cdoc-spr-midden">
+            <div class="cdoc-spr-hdr">Behaald niveau — ${lvLabels[tLv]}</div>
+            <div style="font-style:italic;color:#555;font-size:.75rem;line-height:1.5">${tLv === -1 ? 'Voldoet nog niet aan de omschrijving van Beginner.' : ((ALL_DESCS[t.id]||[])[tLv-1]||t.desc)}</div>
+          </div>
+          <div class="cdoc-spr-col cdoc-spr-sterk">
+            <div class="cdoc-spr-hdr">Sterke punten ➡</div>
+            <div>${spr.sterk||'—'}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+
+  document.getElementById('contractDoc').innerHTML = `
+    <div class="cdoc-logo">
+      <svg width="24" height="20" viewBox="0 0 54 38" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="20" r="13" fill="#e8920a" opacity=".92"/>
+        <circle cx="24" cy="20" r="13" fill="#5a9520" opacity=".88"/>
+        <circle cx="14" cy="20" r="13" fill="#e8920a" opacity=".35"/>
+      </svg>
+      Beroepstaken Peilstok — Jaar 1
+    </div>
+    <div class="cdoc-subtitle">Peilstok Contract — afgetekende beroepstaken · Scalda Land- en Watermanagement</div>
+    <div class="cdoc-meta">
+      <div class="cdoc-meta-row"><span class="cdoc-meta-label">Student</span><span class="cdoc-meta-val">${f.name||'—'}</span></div>
+      <div class="cdoc-meta-row"><span class="cdoc-meta-label">Docent</span><span class="cdoc-meta-val">${f.teacher||'—'}</span></div>
+      <div class="cdoc-meta-row"><span class="cdoc-meta-label">Klas</span><span class="cdoc-meta-val">${f.class||'—'}</span></div>
+      <div class="cdoc-meta-row"><span class="cdoc-meta-label">Schooljaar</span><span class="cdoc-meta-val">${f.year||'—'}</span></div>
+      <div class="cdoc-meta-row"><span class="cdoc-meta-label">Periode</span><span class="cdoc-meta-val">${f.period||'—'}</span></div>
+      <div class="cdoc-meta-row"><span class="cdoc-meta-label">Datum</span><span class="cdoc-meta-val">${today}</span></div>
+    </div>
+    ${(S.feedbackSummary && (S.feedbackSummary.opvallend || S.feedbackSummary.terugkijkDatum)) ? `
+      <div style="margin:0 0 16px;padding:10px 13px;border:1px solid #dde8da;border-radius:8px;background:#fafcf7;font-size:.78rem;line-height:1.5">
+        <div style="font-weight:700;color:#3d6b14;margin-bottom:4px">Terugblik op feedback</div>
+        ${S.feedbackSummary.opvallend ? `<div><strong>Wat valt op:</strong> ${S.feedbackSummary.opvallend}</div>` : ''}
+        ${S.feedbackSummary.terugkijkDatum ? `<div><strong>Terugkijken op:</strong> ${new Date(S.feedbackSummary.terugkijkDatum+'T12:00:00').toLocaleDateString('nl-NL')}</div>` : ''}
+      </div>` : ''}
+    ${sections}
+    <div class="cdoc-sign">
+      <div>
+        <div class="cdoc-sign-label">Handtekening student</div>
+        <div class="cdoc-sign-line"></div>
+        <div class="cdoc-sign-sub">${f.name||'Naam student'}</div>
+      </div>
+      <div>
+        <div class="cdoc-sign-label">Handtekening docent</div>
+        <div class="cdoc-sign-line"></div>
+        <div class="cdoc-sign-sub">${f.teacher||'Naam docent'} &nbsp;&nbsp; Datum: _______________</div>
+      </div>
+    </div>
+    <div class="cdoc-footer">Gegenereerd op ${today} · Beroepstaken Peilstok Versneller · Scalda Land- en Watermanagement</div>`;
+}
+
+function openContract() {
+  buildContractDoc();
+  document.getElementById('contractModal').classList.add('open');
+}
+function closeContract() { document.getElementById('contractModal').classList.remove('open'); }
+
+function printContract() {
+  const content = document.getElementById('contractDoc').innerHTML;
+  const css = document.querySelector('style').textContent;
+  const win = window.open('','_blank','width=860,height=700');
+  win.document.write(`<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">
+    <title>Peilstok Contract — ${S.fields.name||'Student'}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">
+    <style>${css}body{background:#fff;padding:28px 36px;font-size:10.5pt;max-width:800px;margin:0 auto}</style>
+    </head><body>${content}</body></html>`);
+  win.document.close();
+  setTimeout(() => { win.focus(); win.print(); }, 600);
+}
+
+// ══════════════════════════════════
+// LEGE SPR PRINT
+// ══════════════════════════════════
+function printBlankSPR() {
+  const f = S.fields;
+  const today = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+
+  const selected = TAKEN.filter(t => S.goals[t.id]);
+  if (!selected.length) {
+    alert('Selecteer eerst beroepstaken op tabblad 2 voordat je de SPR afdrukt.');
+    return;
+  }
+
+  const rows = selected.map(t => `
+    <tr>
+      <td class="c-left"></td>
+      <td class="c-mid">
+        <div class="t-id">${t.id}</div>
+        <div class="t-name">${t.name}</div>
+        <div class="t-desc">${t.desc}</div>
+      </td>
+      <td class="c-right"></td>
+    </tr>`).join('');
+
+  const win = window.open('','_blank','width=900,height=700');
+  win.document.write(`<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">
+  <title>Lege SPR Jaar 1 — ${f.name||'Student'}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Source Sans 3',sans-serif;font-size:9pt;color:#222;background:#fff;padding:18px 24px}
+    .hdr{display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:3px solid #5a9520;margin-bottom:8px}
+    .hdr h1{font-family:'Source Serif 4',serif;font-size:12pt;font-weight:700;color:#3d6b14}
+    .hdr p{font-size:7.5pt;color:#8f8f6e;margin-top:1px}
+    .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:5px 14px;margin-bottom:10px;font-size:7.5pt}
+    .ml{font-weight:700;color:#8f8f6e;text-transform:uppercase;font-size:6.5pt;letter-spacing:.05em;display:block;margin-bottom:1px}
+    .mv{border-bottom:1px solid #ccc;min-height:14px;padding-bottom:1px}
+    table{width:100%;border-collapse:collapse;table-layout:fixed}
+    colgroup col:nth-child(1){width:30%}
+    colgroup col:nth-child(2){width:40%}
+    colgroup col:nth-child(3){width:30%}
+    thead td{font-size:7pt;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border:1px solid #ccc}
+    .th-l{background:#fff5f5;color:#b91c1c}
+    .th-m{background:#eef5e6;color:#3d6b14;text-align:center}
+    .th-r{background:#eef5e6;color:#3d6b14;text-align:right}
+    tr{page-break-inside:avoid}
+    td{border:1px solid #ccc;vertical-align:top;padding:0}
+    .c-left,.c-right{min-height:60px}
+    .c-mid{padding:6px 8px;background:#f9fcf5}
+    .t-id{font-size:6.5pt;font-weight:700;color:#7db83a;margin-bottom:1px}
+    .t-name{font-weight:700;font-size:8.5pt;color:#3d6b14;margin-bottom:3px}
+    .t-desc{font-size:7.5pt;color:#555;line-height:1.4;font-style:italic}
+    .sign{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:14px;padding-top:10px;border-top:2px solid #ddd;font-size:8pt}
+    .sl{font-weight:600;color:#555;margin-bottom:3px}
+    .sln{border-bottom:1px solid #aaa;height:28px}
+    .ss{font-size:7pt;color:#999;margin-top:3px}
+    .footer{font-size:6.5pt;color:#ccc;text-align:center;margin-top:10px;border-top:1px solid #eee;padding-top:6px}
+    @media print{body{padding:10px 16px}}
+  </style></head><body>
+  <div class="hdr">
+    <svg width="40" height="30" viewBox="0 0 54 38" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="20" r="13" fill="#e8920a" opacity=".92"/>
+      <circle cx="24" cy="20" r="13" fill="#5a9520" opacity=".88"/>
+      <circle cx="14" cy="20" r="13" fill="#e8920a" opacity=".35"/>
+    </svg>
+    <div><h1>Single Point Rubric — Jaar 1 Beginner</h1><p>Beroepstaken Peilstok · Scalda Land- en Watermanagement · ${f.year||'Schooljaar'} · ${f.period||'Periode'}</p></div>
+  </div>
+  <div class="meta">
+    <div><span class="ml">Student</span><span class="mv">${f.name||''}</span></div>
+    <div><span class="ml">Docent</span><span class="mv">${f.teacher||''}</span></div>
+    <div><span class="ml">Klas</span><span class="mv">${f.class||''}</span></div>
+    <div><span class="ml">Datum</span><span class="mv"></span></div>
+  </div>
+  <table>
+    <colgroup><col><col><col></colgroup>
+    <thead><tr>
+      <td class="th-l">⬅ Verbeterpunten<br><span style="font-weight:400;text-transform:none">Nog te ontwikkelen</span></td>
+      <td class="th-m">Leerdoel — verwacht niveau Jaar 1</td>
+      <td class="th-r" style="text-align:right">Sterke punten ➡<br><span style="font-weight:400;text-transform:none">Boven verwachting</span></td>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="sign">
+    <div><div class="sl">Handtekening student</div><div class="sln"></div><div class="ss">${f.name||'Naam student'}</div></div>
+    <div><div class="sl">Handtekening docent</div><div class="sln"></div><div class="ss">${f.teacher||'Naam docent'} &nbsp;&nbsp; Datum: _______________</div></div>
+  </div>
+  <div class="footer">Beroepstaken Peilstok Versneller gegenereerd op ${today} · Scalda Land- en Watermanagement</div>
+  </body></html>`);
+  win.document.close();
+  setTimeout(() => { win.focus(); win.print(); }, 600);
+}
+
+// ══════════════════════════════════
+// MODAL OVERLAY CLOSE
+// ══════════════════════════════════
+['pinModal','resetModal','contractModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) document.getElementById(id).classList.remove('open');
+  });
+});
+
+
+function renderTeacherContent() {
+  const el = document.getElementById('teacher-content');
+  if (!el) return;
+  const goalSubs = TAKEN.filter(t => S.goals[t.id]);
+  if (!goalSubs.length) {
+    el.innerHTML = '<div class="empty-state"><strong>Nog geen beroepstaken gekozen</strong>Selecteer eerst beroepstaken op tabblad 2.</div>';
+    return;
+  }
+  let html = '';
+  LEERLIJNEN.forEach(ll => {
+    const taken = goalSubs.filter(t => t.ll === ll);
+    if (!taken.length) return;
+    const num = taken[0].id.split('.')[0];
+    html += `<div class="section-hdr">
+      <div class="section-num">${num}</div>
+      <div><div class="section-title">${ll}</div></div>
+    </div>`;
+    taken.forEach(t => { html += renderTeacherCard(t); });
+  });
+  el.innerHTML = html;
+}
+
+let DEFAULT_YEAR = 1; // dynamisch op basis van gekozen studiejaar
+const ALL_DESCS = {
+  '1.1': ['Doet basismetingen met eenvoudige apparatuur. Werkt volgens instructie en in teamverband.','Plant en organiseert metingen en gebruikt moderne apparatuur.','Combineert verschillende meetmethoden tot één samenhangend beeld. Begeleidt anderen.','Bepaalt zelfstandig wat, waar en hoe gemeten moet worden. Stuurt complete meetprojecten aan.'],
+  '1.2': ['Noteert waarnemingen volgens een vast formulier. Maakt eenvoudige beschrijvingen.','Legt gegevens overzichtelijker vast, bijv. in grafieken of tabellen.','Ontwikkelt registratiemethoden. Zorgt voor nauwkeurige en bruikbare data.','Werkt met professionele databanken en bewaakt kwaliteit van de data.'],
+  '1.3': ['Voert klein onderzoek uit volgens een vast protocol. Maakt eenvoudige conclusies.','Schrijft een onderzoeksplan bij een probleem en voert dit uit samen met anderen.','Vergelijkt metingen met bronnen of literatuur. Trekt zelfstandig conclusies.','Voert zelfstandig complex onderzoek uit. Analyseert verbanden en betrekt beleid.'],
+  '1.4': ['Maakt een korte rapportage. Gebruikt enkele vaktermen.','Rapporteert met uitleg en onderbouwing. Gebruikt grafieken of kaarten.','Maakt rapporten met visuele ondersteuning (GIS-kaarten). Presenteert hoofd- en deelvragen.','Publiceert voor extern publiek. Past boodschap aan op doelgroep. Verdedigt resultaten.'],
+  '1.5': ['Herkent zichtbare problemen en meldt dit aan begeleider.','Ziet ook subtiele signalen en onderneemt zelf actie.','Herkent patronen of trends. Doet voorstellen om problemen voor te zijn.','Ontwikkelt systemen voor vroegtijdige waarschuwing. Adviseert organisaties.'],
+  '2.1': ['Zoekt bestaande ideeën en voorbeelden om ontwerpkeuzes te onderbouwen.','Onderzoekt actief bestaande ideeën. Gebruikt meerdere betrouwbare bronnen.','Initieert onderzoek naar best practices. Onderbouwt keuzes overtuigend met bewijsmateriaal.','Verricht strategisch onderzoek. Integreert kennis uit verschillende vakgebieden.'],
+  '2.2': ['Maakt schetsen met potlood of basaal digitaal programma. Houdt rekening met 1–2 omgevingsfactoren.','Maakt gedetailleerde schetsontwerpen met oog voor duurzaamheid, flora, fauna, bodem en water.','Maakt volwaardige ontwerpplannen met meerdere alternatieven en innovatieve oplossingen.','Creëert innovatieve ontwerpen. Integreert complexe systeemrelaties. Lange-termijn perspectief.'],
+  '2.3': ['Stelt een eenvoudig beplantingsplan of beheerschema op met hulp.','Stelt plannen op basis van lokale omstandigheden, met oog voor ecologie en esthetiek.','Stelt uitgebreide toekomstbestendige plannen op afgestemd op lokale omstandigheden.','Anticipeert op veranderende omstandigheden. Integreert technologische innovaties.'],
+  '2.4': ['Leert basisvaardigheden in digitale programma\'s (Google Earth, eenvoudige GIS-viewer).','Gebruikt digitale programma\'s doelgericht. Maakt kaartlagen en plattegronden met legenda\'s.','Gebruikt GIS, CAD en andere geavanceerde tools met steun. Maakt functionele kaarten.','Gebruikt GIS, CAD en andere tools vloeiend. Maakt professionele kaarten. Analyseert data.'],
+  '2.5': ['Licht eenvoudige ontwerpschetsen toe aan klasgenoten. Gebruikt basale vaktermen.','Visualiseert ontwerpen met diverse middelen. Verdedigt keuzes met argumenten.','Professionele presentaties met visualisaties (GIS, 3D). Communiceert naar stakeholders.','Communiceert ontwerpen strategisch en inspirerend. Overtuigt besluitvormers.'],
+  '3.1': ['Stelt machines en gereedschap in volgens duidelijke instructies.','Kiest het juiste materiaal bij de taak. Stelt machines zelf in en meldt onveilige situaties.','Begeleidt anderen bij het gebruik van materieel. Voert zelfstandig complexe instellingen uit.','Ontwikkelt veilige werkprotocollen. Verantwoordelijk voor materieelinzet op projectniveau.'],
+  '3.2': ['Haalt materialen op en zet ze klaar. Voorkomt verspilling door aanwijzingen op te volgen.','Maakt zelf keuzes in materiaalgebruik en werkt efficiënt. Bewaakt het werktempo.','Verdeelt werk en middelen binnen projectteam en stuurt bij als iets niet loopt.','Ontwikkelt strategieën om mensen, middelen en tijd slim in te zetten.'],
+  '3.3': ['Maakt een eenvoudige dagplanning onder begeleiding. Houdt zich aan afspraken.','Maakt zelfstandig een weekplanning. Houdt rekening met weersomstandigheden.','Maakt projectplanningen, inclusief tijdspad, afhankelijkheden en buffers.','Stuurt op planningsstrategieën op organisatieniveau. Innoveert in planningsmethodes.'],
+  '3.4': ['Volgt veiligheidsregels en draagt de juiste PBM\'s. Meldt onveilige situaties.','Herkent risico\'s vooraf, neemt initiatief voor preventieve maatregelen.','Voert risicoanalyses uit en leidt toolboxmeetings. Zorgt dat collega\'s veilig werken.','Ontwikkelt beleid en systemen voor veiligheid. Bevordert een veiligheidscultuur.'],
+  '3.5': ['Voert eenvoudige werkzaamheden uit zoals gras maaien of slootkanten schonen.','Werkt zelfstandig aan aanleg- of onderhoudstaken en bewaakt de kwaliteit.','Coördineert de uitvoering van werkzaamheden en stuurt een team aan.','Eindverantwoordelijk voor de uitvoering van een compleet project.'],
+  '3.6': ['Vult eenvoudige logboeken of checklijsten in.','Legt werkzaamheden vast met tekst en foto\'s. Documenteert afwijkingen en tijdsbesteding.','Stelt rapportages op voor projectvoortgang en legt gemaakte keuzes vast.','Ontwikkelt digitale systemen voor projectdocumentatie en kennisdeling.'],
+  '3.7': ['Controleert eigen werk met een checklist en bespreekt het in de nabespreking.','Bereidt opleveringen voor, maakt verslagen en formuleert verbeterpunten.','Verzorgt formele opleveringen en organiseert evaluaties.','Leidt projectevaluaties met meerdere partijen en vertaalt bevindingen naar verbeteringen.'],
+  '3.8': ['Werkt samen met team en begeleider. Overlegt en geeft aan wat nodig is.','Stemt werk af met collega\'s en andere betrokkenen zoals opdrachtgevers.','Bouwt aan professionele relaties, onderhandelt en managet verwachtingen.','Ontwikkelt en onderhoudt duurzame samenwerkingen. Stuurt op belangen van stakeholders.'],
+  '4.1': ['Denkt na over de rol in het team en luistert naar tips.','Vraagt om feedback en probeert deze toe te passen.','Bespreekt en verbetert actief de samenwerking.','Reflecteert kritisch en verbetert samenwerking met team en stakeholders.'],
+  '4.2': ['Praat en luistert duidelijk binnen de klas.','Past communicatie aan per persoon.','Communiceert helder binnen en buiten school.','Stemt taalgebruik af en stelt verdiepende vragen.'],
+  '4.3': ['Laat enthousiasme zien voor duurzame projecten.','Moedigt anderen aan en deelt successen.','Betrekt anderen actief bij het project.','Inspireert en benadrukt het belang van ieders bijdrage.'],
+  '4.4': ['Maakt een simpele planning met hulp.','Plant zelfstandig en past beperkt aan.','Maakt en wijzigt planningen met belanghebbenden.','Maakt realistische planningen en stemt goed af.'],
+  '4.5': ['Geeft basisinfo onder begeleiding.','Informeert zelfstandig directe collega\'s.','Stemt informatie af op de doelgroep.','Zorgt dat iedereen goed geïnformeerd is.'],
+  '4.6': ['Volgt de uitvoering met hulp en meldt problemen.','Controleert overzichtelijke activiteiten op voortgang.','Bewaakt zelfstandig kwaliteit en tijd.','Houdt toezicht en grijpt in bij knelpunten.'],
+  '4.7': ['Herkent betrokkenen met hulp.','Vraagt hen om input en houdt hen op de hoogte.','Werkt actief samen met diverse stakeholders.','Creëert draagvlak en onderhoudt relaties.'],
+  '4.8': ['Helpt mee bij kleine activiteiten.','Organiseert een eenvoudige bijeenkomst.','Organiseert bijeenkomsten die aansluiten bij het project.','Bereidt zelfstandig activiteiten voor, voert ze uit en evalueert ze.'],
+  '4.9': ['Leert Engelse vaktermen en werkt met buitenlandse studenten.','Praat in het Engels over projecten en zoekt info op.','Werkt mee in internationale projecten en past zich aan.','Communiceert vlot in het Engels en leert van buitenlandse partners.'],
+  '5.1': ['Leest en volgt bestaande werkinstructies. Kan benoemen waarom stappen in een bepaalde volgorde staan.','Maakt een eenvoudige werkinstructie met hulp van een voorbeeld.','Schrijft zelf duidelijke werkinstructies. Vraagt om input en test of de instructie goed werkt.','Schrijft zelfstandig een schriftelijke instructie voor bestaande of gewijzigde procedures.'],
+  '5.2': ['Leest aangereikte artikelen uit vakbladen en vertelt waar ze over gaan.','Zoekt zelf informatie op in vakbladen en legt de betekenis voor de werkzaamheden uit.','Volgt regelmatig het nieuws in het vakgebied en doet voorstellen voor werkwijzaanpassingen.','Houdt actief vakliteratuur bij en vormt een mening over de invloed van ontwikkelingen.'],
+  '5.3': ['Herkent een probleem als de docent dit aanwijst. Leert wat een goede onderzoeksvraag is.','Vindt zelf eenvoudige problemen en maakt hierover een onderzoeksvraag met hulp.','Herkent zelf problemen en stelt hiervoor een duidelijke onderzoeksvraag op.','Formuleert een onderbouwde probleemstelling en bepaalt zelfstandig op welke indicatoren gecontroleerd wordt.'],
+  '5.4': ['Controleert werk volgens een checklist van de docent.','Maakt zelf een eenvoudig controleplan met hulp van voorbeelden.','Stelt een compleet controleplan op en bespreekt dit met de begeleider.','Stelt zelfstandig een plan op voor hoe de kwaliteit tussentijds en aan het einde gecontroleerd wordt.'],
+  '5.5': ['Voert eenvoudige controles uit onder begeleiding. Gebruikt een controlelijst.','Voert verschillende soorten controles zelfstandig uit en vraagt hulp wanneer nodig.','Voert alle controles zelfstandig uit en kan anderen uitleggen hoe te controleren.','Voert zelfstandig controles uit of laat deze uitvoeren volgens het opgestelde plan.'],
+  '5.6': ['Vult een eenvoudig opleverformulier in met hulp van de docent.','Maakt zelf een opleverformulier met een lijst van uitgevoerde werkzaamheden.','Stelt een compleet formulier op en regelt dat de opdrachtgever het controleert.','Levert een volledig formulier in met overzicht van activiteiten en akkoord van opdrachtgever.'],
+  '5.7': ['Bespreekt wat goed ging en wat beter kon. Schrijft op wat geleerd is.','Houdt zelf een evaluatiegesprek met teamgenoten.','Organiseert zelf een evaluatie met team en opdrachtgever. Maakt een verslag.','Evalueert met alle betrokkenen en gebruikt inzichten voor volgende projecten.'],
+};
+
+function renderTeacherCard(t) {
+  const approved  = !!S.teacherApproved[t.id];
+  const tLv       = S.teacherLevels[t.id];       // explicitly chosen level (-1, 1-4), or undefined
+  const defaultYr = DEFAULT_YEAR;                  // the year this file is for
+  const showLv    = tLv ?? defaultYr;             // show chosen level, else default year level
+  const spr       = S.teacherSPR[t.id] || {};
+  const studentLv = Object.prototype.hasOwnProperty.call(S.studentLevels || {}, t.id) ? S.studentLevels[t.id] : 0;
+  const ref       = S.reflections[t.id] || {};
+  const allDescs  = ALL_DESCS[t.id] || ['','','',''];
+
+  const lvLabels = {'-1':'Nog niet op beginnerniveau','1':'Beginner','2':'Geoefend','3':'Gevorderd','4':'Startbekwaam'};
+
+  const tLevels = [-1,1,2,3,4];
+  const tBtns = tLevels.map(lv => {
+    const act = tLv === lv ? 'act' : '';
+    return `<button class="tbtn ${act}" onclick="setTeacherLevel('${t.id}',${lv})">${lvLabels[lv]}</button>`;
+  }).join('');
+
+  const approvedStamp = approved
+    ? `<div class="approved-stamp">✅ Afgetekend op niveau <strong>${lvLabels[tLv ?? defaultYr]}</strong></div>`
+    : '';
+
+  // Student invulling — altijd zichtbaar, ook als leeg
+  const bewijsVal = ref.bewijs || '';
+  const stapVal   = ref.stap   || '';
+  const bronVal   = (ref.sources || []).join(', ');
+  const studentSummary = `
+    <div style="background:var(--green-50);border:1px solid var(--green-100);border-radius:9px;padding:12px 14px">
+      <div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--green-d);margin-bottom:8px">📋 Ingevuld door student</div>
+      ${bronVal ? `<div style="font-size:.68rem;color:var(--tmut);margin-bottom:7px"><strong style="color:var(--tmid)">Feedback van:</strong> ${bronVal}</div>` : ''}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tmut);margin-bottom:4px">📸 Bewijs — wat heb ik al laten zien?</div>
+          <div style="font-size:.82rem;color:${bewijsVal ? 'var(--tmid)' : '#ccc'};font-style:${bewijsVal ? 'normal' : 'italic'};line-height:1.5;min-height:32px">${bewijsVal || 'Nog niet ingevuld'}</div>
+        </div>
+        <div>
+          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tmut);margin-bottom:4px">🎯 Volgende stap — hoe verder ontwikkelen?</div>
+          <div style="font-size:.82rem;color:${stapVal ? 'var(--tmid)' : '#ccc'};font-style:${stapVal ? 'normal' : 'italic'};line-height:1.5;min-height:32px">${stapVal || 'Nog niet ingevuld'}</div>
+        </div>
+      </div>
+    </div>`;
+
+  // SPR: verbeter | één niveaukolom (showLv) | sterk
+  // The shown column is the default year level, UNLESS the teacher chose a different one
+  // full SOLO SPR in versneller — all 4 cols rendered inline
+
+  return `<div class="btc${approved?' done':''}" id="tc_${t.id.replace('.','_')}">
+    <div class="btc-hdr" onclick="toggleTeacherCard('${t.id}')">
+      <span class="btc-id">${t.id}</span>
+      <span class="btc-name">${t.name}</span>
+      <div class="btc-status">
+        <span class="status-dot"></span>
+        <span class="status-label">${approved ? '✓ Afgetekend' : studentLv!==0 ? '⚡ '+({'-1':'Nog niet op beginnerniveau','1':'Beginner','2':'Geoefend','3':'Gevorderd','4':'Startbekwaam'}[studentLv]) : 'Open'}</span>
+        <span class="chev">▼</span>
+      </div>
+    </div>
+    <div class="btc-body" id="tcb_${t.id.replace('.','_')}">
+      <div class="btc-inner">
+
+        ${studentSummary}
+
+        ${approvedStamp}
+
+        <div class="teacher-sec on">
+          <div class="teacher-sec-title">🎓 Docentbeoordeling</div>
+          <div style="font-size:.7rem;color:var(--tea);margin-bottom:8px">
+            Niveau toewijzen en aftekenen — kies een ander niveau om de SPR aan te passen:
+          </div>
+          <div class="teacher-row" style="margin-bottom:14px">
+            ${tBtns}
+            <button class="tbtn approve${approved?' act':''}" onclick="toggleApprove('${t.id}')">${approved?'✓ Afgetekend':'Aftekenen'}</button>
+          </div>
+          <div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tmut);margin-bottom:6px">Single Point Rubric — alle SOLO niveaus</div>
+          <div style="display:flex;gap:0;border:1.5px solid var(--teabdr);border-radius:9px;overflow:hidden">
+            <div style="display:flex;flex-direction:column;flex:0 0 120px;background:#fff5f5;border-right:1px solid #fca5a5">
+              <div style="font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-bottom:1px solid #fca5a5;color:#b91c1c;line-height:1.4">⬅ Verbeterpunten<br><span style="font-weight:400;text-transform:none;font-style:italic">Nog te ontwikkelen</span></div>
+              <textarea style="border:none;padding:7px 8px;font-family:'Source Sans 3',sans-serif;font-size:.77rem;background:transparent;color:var(--text);resize:vertical;min-height:140px;flex:1;line-height:1.5;width:100%"
+                placeholder="Wat moet de student nog ontwikkelen?"
+                oninput="saveSPR('${t.id}','verbeter',this.value)"
+              >${spr.verbeter||''}</textarea>
+            </div>
+            ${[
+              {key:'spr_b', lbl:'Beginner',     bg:'#f0faf4', hdr:'#3d6b14', bdr:'#d4ebaf', i:0},
+              {key:'spr_g', lbl:'Geoefend',     bg:'#eff6ff', hdr:'#1e40af', bdr:'#bfdbfe', i:1},
+              {key:'spr_gv',lbl:'Gevorderd',    bg:'#faf5ff', hdr:'#6b21a8', bdr:'#e9d5ff', i:2},
+              {key:'spr_sk',lbl:'Startbekwaam', bg:'#f0f5e8', hdr:'#1a3a0e', bdr:'#b7e4a0', i:3},
+            ].map(c => {
+              const val = (S.teacherSPR[t.id]||{})[c.key]||''
+              const isActive = tLv === c.i+1
+              const isStudentLv = studentLv === c.i+1
+              const border = isActive ? `2px solid ${c.hdr}` : `1px solid ${c.bdr}`
+              return `<div style="display:flex;flex-direction:column;flex:1;background:${c.bg};border-left:${border};border-right:${border}">
+                <div style="font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-bottom:1px solid ${c.bdr};color:${c.hdr};line-height:1.3">
+                  ${c.lbl}${isActive?' ★':''}${isStudentLv?' 🎓':''}
+                </div>
+                <div style="font-size:.71rem;color:#555;line-height:1.4;padding:5px 8px;font-style:italic;border-bottom:1px solid ${c.bdr}">${(ALL_DESCS[t.id]||[])[c.i]||''}</div>
+                <textarea style="border:none;padding:6px 8px;font-family:'Source Sans 3',sans-serif;font-size:.76rem;background:transparent;color:var(--text);resize:vertical;min-height:60px;flex:1;line-height:1.45;width:100%"
+                  placeholder="Notities..."
+                  oninput="saveSPRKey('${t.id}','${c.key}',this.value)"
+                >${val}</textarea>
+              </div>`
+            }).join('')}
+            <div style="display:flex;flex-direction:column;flex:0 0 120px;background:#f0faf4;border-left:1px solid #d4ebaf">
+              <div style="font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-bottom:1px solid #d4ebaf;color:#3d6b14;text-align:right;line-height:1.4">Sterke punten ➡<br><span style="font-weight:400;text-transform:none;font-style:italic">Boven verwachting</span></div>
+              <textarea style="border:none;padding:7px 8px;font-family:'Source Sans 3',sans-serif;font-size:.77rem;background:transparent;color:var(--text);resize:vertical;min-height:140px;flex:1;line-height:1.5;width:100%"
+                placeholder="Waar presteert de student boven verwachting?"
+                oninput="saveSPR('${t.id}','sterk',this.value)"
+              >${spr.sterk||''}</textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>`;
+}
+function saveSPRKey(id, field, val) {
+  if (!S.teacherMode) return;
+  if (!S.teacherSPR[id]) S.teacherSPR[id] = {};
+  S.teacherSPR[id][field] = val;
+  save();
+}
+
+function toggleTeacherCard(id) {
+  const body = document.getElementById('tcb_' + id.replace('.','_'));
+  if (body) body.style.display = body.style.display === 'block' ? 'none' : 'block';
+}
+
+// ══════════════════════════════════
+// INIT
+// ══════════════════════════════════
+load();
+['name','teacher','class','year','period'].forEach(k => {
+  const el = document.getElementById('f_'+k);
+  if (el && S.fields[k]) el.value = S.fields[k];
+});
+if (S.fields.studyear) {
+  const sy = document.getElementById('f_studyear');
+  if (sy) sy.value = S.fields.studyear;
+  DEFAULT_YEAR = parseInt(S.fields.studyear) || 1;
+}
+if (S.teacherMode) {
+  document.getElementById('teacherBtn').textContent = '🎓 Docent: AAN';
+  document.getElementById('teacherBanner').classList.add('on');
+}
+render();
+setTab(S.activeTab || 'gegevens');
+updateDocentTab();
+</script>
+</body>
+</html>
